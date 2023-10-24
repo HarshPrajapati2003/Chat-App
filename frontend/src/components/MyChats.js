@@ -5,10 +5,12 @@ import axios from 'axios';
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './ChatLoading';
 import { getSender } from '../config/ChatLogics';
+import GroupChatModal from './miscellaneous/GroupChatModal';
 
-const MyChats = () => {
+const MyChats = ({fetchAgain}) => {
   const [loggedUser,setLoggedUser]=useState()
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
+  // console.log(chats);
   const toast = useToast();
   const fetchChats = async () => {
     try {
@@ -19,7 +21,7 @@ const MyChats = () => {
       }
         const { data } = await axios.get("/api/chat", config)
       setChats(data)
-      console.log(data)
+      // console.log(data)
      
     } catch (error) {
       toast({
@@ -36,7 +38,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")))
     fetchChats();
-  },[])
+  },[fetchAgain])
 
   return (
     <Box
@@ -60,13 +62,15 @@ const MyChats = () => {
         alignItems={"center"}
       >
         My Chats
-        <Button
-          display={"flex"}
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModal>
+          <Button
+            display={"flex"}
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
       </Box>
       <Box
         display={"flex"}
@@ -88,11 +92,13 @@ const MyChats = () => {
                 color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
-                borderRadius={'lg'}
+                borderRadius={"lg"}
                 key={chat._id}
               >
                 <Text>
-                  {!chat.isGroupChat ? getSender(loggedUser,chat.users):chat.chatName}
+                  {!chat.isGroupChat
+                    ? getSender(loggedUser, chat.users)
+                    : chat.chatName}
                 </Text>
               </Box>
             ))}
