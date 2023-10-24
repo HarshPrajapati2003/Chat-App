@@ -8,6 +8,6 @@ router.get("/", protect, fetchChats);
 router.post("/group", protect, createGroupChat);
 router.put("/group", protect, renameGroup);
 router.put("/groupadd", protect, addToGroup);
-router.put("/groupRemove", protect, removeFromGroup);
+router.put("/groupremove", protect, removeFromGroup);
 
 module.exports=router
