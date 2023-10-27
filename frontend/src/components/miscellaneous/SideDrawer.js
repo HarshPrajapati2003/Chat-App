@@ -19,17 +19,18 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState()
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  const handleSearch = async () => {
-    if (!search) {
-      toast({
-        title: "Please Enter somthing in search",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "top-left",
-      });
-      return
-    }
+  const handleSearch = async (e) => {
+    setSearch(e.target.value)
+    // if (!search) {
+    //   toast({
+    //     title: "Please Enter somthing in search",
+    //     status: "warning",
+    //     duration: 5000,
+    //     isClosable: true,
+    //     position: "top-left",
+    //   });
+    //   return
+    // }
 
     try {
       setLoading(true)
@@ -39,9 +40,10 @@ const SideDrawer = () => {
         }
       }
       const { data } = await axios.get(`/api/user?search=${search}`, config)
-      
-      setLoading(false)
+
+      setLoading(false);
       setSearchResult(data)
+      
 
     } catch (error) {
       toast({
@@ -114,8 +116,14 @@ const SideDrawer = () => {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize={"2xl"} fontFamily={"Work sans"}>
-          Talk-A-Tive
+        <Text
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontFamily={"Work sans"}
+          fontWeight={"bold"}
+          color="#0358B3"
+        >
+          <Avatar name="Chat Infinite" src="./logo.png" size="sm" />
+          Chat Infinite
         </Text>
         <div>
           <Menu>
@@ -128,19 +136,17 @@ const SideDrawer = () => {
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
-              {notification.map(notif => (
+              {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
                   onClick={() => {
-                    setSelectedChat(notif.chat)
-                    setNotification(notification.filter((n)=>n!==notif))
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
                   }}
                 >
-                  {
-                    notif.chat.isGroupChat ?
-                      `New Message in ${notif.chat.chatName}` :
-                      `New Message from ${getSender(user,notif.chat.users)}`
-                  }
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
               ))}
             </MenuList>
@@ -174,23 +180,23 @@ const SideDrawer = () => {
                 placeholder="Search by name or email"
                 mr={2}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e)=>handleSearch(e)}
+                // onClick={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={handleSearch}>
-                Go
-              </Button>
+              {/* <Button onClick={handleSearch}>Go</Button> */}
             </Box>
             {loading ? (
               <ChatLoading/>
             ) : (
-                searchResult?.map(user => (
-                  <UserListItem
-                    key={user._id}
-                    user={user}
-                    handleFunction={()=>accessChat(user._id)}
-                  />))
+              searchResult?.map((user) => (
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  handleFunction={() => accessChat(user._id)}
+                />
+              ))
             )}
-            {loadingChat && <Spinner ml="auto" display="flex"/>}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

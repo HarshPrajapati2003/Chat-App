@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { Avatar, Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import Login from '../components/Authentication/Login';
 import Signup from '../components/Authentication/Signup';
 import { useNavigate } from 'react-router-dom';
@@ -25,8 +25,15 @@ const HomePage = () => {
         borderRadius={"lg"}
         borderWidth={"1px"}
       >
-        <Text fontSize={"4xl"} fontFamily={"work sans"} color={"black"}>
-          Talk-A-Tive
+        <Text
+          fontSize={"4xl"}
+          fontFamily={"work sans"}
+          color={"black"}
+          fontWeight={"bold"}
+          color={"#0358B3"}
+        >
+          <Avatar name="Chat Infinite" src="./logo.png" />
+          Chat Infinite
         </Text>
       </Box>
       <Box
@@ -44,10 +51,10 @@ const HomePage = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Login/>
+              <Login />
             </TabPanel>
             <TabPanel>
-              <Signup/>
+              <Signup />
             </TabPanel>
           </TabPanels>
         </Tabs>

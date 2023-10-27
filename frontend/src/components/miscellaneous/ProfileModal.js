@@ -15,7 +15,7 @@ const ProfileModal = ({user,children}) => {
           onClick={onOpen}
         />
       )}
-      <Modal size='lg' isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal size={{base:'sm' , md:'lg'}} isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent h='410px'>
           <ModalHeader
@@ -43,12 +43,12 @@ const ProfileModal = ({user,children}) => {
             >Email : {user.email}</Text>
           </ModalBody>
 
-          <ModalFooter>
+          {/* <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
             <Button variant="ghost">Secondary Action</Button>
-          </ModalFooter>
+          </ModalFooter> */}
         </ModalContent>
       </Modal>
     </>

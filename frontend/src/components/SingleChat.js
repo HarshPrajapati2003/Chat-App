@@ -208,22 +208,30 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin={"auto"}
               />
             ) : (
-                <div className="messages">
-                  <ScrollableChat messages={messages}/>
+              <div className="messages">
+                <ScrollableChat messages={messages} />
               </div>
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
-              {isTyping ? <div><Lottie
-                options={defaultOptions}
-                width={70}
-                style={{marginBottom:15,marginLeft:0}}
-              /></div>:(<></>)}
+              {isTyping ? (
+                <div>
+                  <Lottie
+                    options={defaultOptions}
+                    width={70}
+                    style={{ marginBottom: 15, marginLeft: 0 }}
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
               <Input
                 variant={"filled"}
                 bg={"E0E0E0"}
                 placeholder="Enter a message.."
                 onChange={typingHandler}
                 value={newMessage}
+                borderColor={"#0375f1"}
+                borderWidth={"thin"}
               />
             </FormControl>
           </Box>

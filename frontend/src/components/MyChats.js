@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ChatState } from '../Context/ChatProvider';
-import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
+import { Avatar, Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './ChatLoading';
-import { getSender } from '../config/ChatLogics';
+import { getSender, getSenderImg } from '../config/ChatLogics';
 import GroupChatModal from './miscellaneous/GroupChatModal';
 
 const MyChats = ({fetchAgain}) => {
@@ -76,11 +76,13 @@ const MyChats = ({fetchAgain}) => {
         display={"flex"}
         flexDir={"column"}
         p={3}
-        bg={"#F8F8F8"}
+        bg={"white"}
         w="100%"
         h="100%"
         borderRadius={"lg"}
         overflowY={"hidden"}
+        borderColor={"#0375f1"}
+        borderWidth={'thin'}
       >
         {chats ? (
           <Stack overflowY={"scroll"}>
@@ -88,13 +90,29 @@ const MyChats = ({fetchAgain}) => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor={"pointer"}
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                bg={selectedChat === chat ? "#0255B1" : "#BEE3F8"}
                 color={selectedChat === chat ? "white" : "black"}
+                _hover={{
+                  background: "#0255B1",
+                  color: "white",
+                }}
                 px={3}
                 py={2}
                 borderRadius={"lg"}
                 key={chat._id}
+                display={"flex"}
+                alignItems={"center"}
               >
+                <Avatar
+                  name="Chat Infinite"
+                  src={
+                    !chat.isGroupChat
+                      ? getSenderImg(loggedUser, chat.users)
+                      : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+                  }
+                  size="sm"
+                  mr={2}
+                />
                 <Text>
                   {!chat.isGroupChat
                     ? getSender(loggedUser, chat.users)
